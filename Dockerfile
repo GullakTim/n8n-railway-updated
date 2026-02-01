@@ -2,12 +2,11 @@ FROM n8nio/n8n:latest
 
 USER root
 
-# Установка Chrome для систем на базе Ubuntu/Debian
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends chromium && \
-    rm -rf /var/lib/apt/lists/*
+# Устанавливаем только браузер Chromium самой простой командой
+RUN apk add --no-cache chromium
 
-# Путь к исполняемому файлу браузера
-ENV N8N_PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# Прописываем правильные пути для этой системы
+ENV N8N_PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 USER node
