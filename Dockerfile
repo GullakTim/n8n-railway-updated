@@ -2,11 +2,13 @@ FROM n8nio/n8n:latest
 
 USER root
 
-# Устанавливаем только браузер Chromium самой простой командой
-RUN apk add --no-cache chromium
+# Используем полный путь к менеджеру пакетов и чистим кэш
+RUN /usr/bin/apt-get update && \
+    /usr/bin/apt-get install -y chromium chromium-sandbox && \
+    rm -rf /var/lib/apt/lists/*
 
-# Прописываем правильные пути для этой системы
-ENV N8N_PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# Настройки для n8n
+ENV N8N_PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 USER node
